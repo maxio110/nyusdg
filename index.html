@@ -1,0 +1,200 @@
+<!doctype html>
+<html ng-app="NYUsdg">
+<head>
+    <meta charset="UTF-8">
+    <title>Student Discount Guide</title>
+    <script type="application/x-javascript"> addEventListener("load", function () {
+        setTimeout(hideURLbar, 0);
+    }, false);
+    function hideURLbar() {
+        window.scrollTo(0, 1);
+    } </script>
+    <script src="js/angular.js"></script>
+    <script src="js/angular-route.js"></script>
+    <script src="js/jquery-2.1.3.min.js"></script>
+    <script src="js/bootstrap.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/angular-smooth-scroll.js"></script>
+    <script src="js/dirPagination.js"></script>
+    <script src="http://maps.googleapis.com/maps/api/js"></script>
+    <!--<script type="text/javascript" src="https://getfirebug.com/firebug-lite-debug.js"></script>-->
+    <!-- bootstrap -->
+    <link href="css/bootstrap.css" rel='stylesheet' type='text/css' media="all"/>
+    <!-- //bootstrap -->
+    <!-- Custom Theme files -->
+    <link href="css/style.css" rel='stylesheet' type='text/css' media="all"/>
+    <!-- top-nav -->
+    <link href="css/component.css" rel="stylesheet" type="text/css"/>
+    <!-- //top-nav -->
+</head>
+
+<body class="cbp-spmenu-push">
+<div ng-controller="MainController">
+    <!--banner-->
+    <div class="top-nav">
+        <nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-right" id="cbp-spmenu-s2">
+            <h3 id="closeRightPush">
+                <button style="background-color: transparent; border: transparent">Menu</button>
+            </h3>
+            <ul>
+                <li><a href="" scroll-to="cbp-spmenu-s2">Top</a></li>
+                <li><a href="" scroll-to="content" ng-click="toggle('#/')">Table</a></li>
+                <li><a href="" scroll-to="content" ng-click="toggle('#/map')">Map</a></li>
+                <li><a href="" scroll-to="about">About</a></li>
+                <li><a href="" scroll-to="contact">Contact</a></li>
+            </ul>
+        </nav>
+        <div class="main buttonset">
+            <!-- Class "cbp-spmenu-open" gets applied to menu and "cbp-spmenu-push-toleft" or "cbp-spmenu-push-toright" to the body -->
+            <button id="showRightPush"><img src="images/logo.png" style="width:50%"/></button>
+            <!--<span class="menu"></span>-->
+        </div>
+        <script src="js/classie.js"></script>
+    </div>
+
+    <!--//banner-->
+
+    <div class="cover" id="home">
+        <div class="container">
+            <div class="header">
+                <div class="banner-info">
+                    <h3>NYU STUDENT DISCOUNT GUIDE</h3>
+                </div>
+                <div class="intro">
+                    <a scroll-to="content" ng-click="toggle('#/')" style="margin-right: 15px;"
+                       class="btn btn-info btn-lg">
+                        Table Version
+                    </a>
+                    <a scroll-to="content" ng-click="toggle('#/map')" style="margin-left: 15px;"
+                       class="btn btn-success btn-lg">
+                        Map Version
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div id="content">
+        <div ng-view></div>
+        <!-- about-us -->
+        <div class="about-us" id="about">
+            <div class="container">
+                <h3>About Us</h3>
+                <p class="ut">We are students at NYU who just want to help fellow students save money where the can.</p>
+
+            </div>
+        </div>
+
+        <!-- //about-us -->
+
+        <!--<script>-->
+        <!--$(document).ready(function(){-->
+        <!--$("#upLoadModal").modal();-->
+        <!--});-->
+
+        <!--</script>-->
+
+        <!-- submission form -->
+        <div class="contact">
+            <div class="container">
+                <p>Know an amazing discount you don't see listed here yet? </p>
+                <div class="con">
+                    <a data-toggle="modal" data-target=".bs-example-modal-md" href=""
+                       class="b-link-stripe b-animate-go  thickbox hvr-bounce-to-bottom">Submit a Discount</a>
+                </div>
+                <a data-toggle="modal" data-target=".bs-example-modal-md" href=""> </a>
+                <div id="upLoadModal" class="modal fade bs-example-modal-md light-box" tabindex="-1" role="dialog"
+                     aria-labelledby="mySmallModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-md">
+                        <div class="modal-content light-box-info">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><img
+                                    src="images/close.png" title="close"/></button>
+                            <div class="pop">
+                                <div class="contact-grids">
+                                    <div class="inp">
+                                        <form id="uploadForm" enctype="multipart/form-data">
+                                            <h4>New Store - Admin use only</h4>
+                                            Store Name : Category <select name="category" ng-model="form.category">
+                                            <optgroup ng-repeat="category in categories" label="{{category.name}}">
+                                                <option ng-repeat="(key, value) in category" value="{{key}}">{{value}}
+                                                </option>
+                                            </optgroup>
+                                        </select> <input name="name" type="text" ng-model="form.name"/>
+                                            Discount Given (%) <input name="discount" type="text"
+                                                                      ng-model="form.discount"/>
+                                            Requirements <input name="requirement" type="text"
+                                                                ng-model="form.requirement"/>
+                                            Additional Information <input name="info" type="text" ng-model="form.info"/>
+                                            Website <input name="web" type="text" ng-model="form.web"/>
+                                            Logo URL <input name="logo" type="text" ng-model="form.logo"/>
+                                            Address <input name="location" type="text" ng-model="form.location"/>
+                                            Phone <input name="phone" type="text" ng-model="form.phone"/>
+
+                                            File <input type="file" name="storePhoto" fileread="form.storePhoto"/>
+
+                                            Longitude <input type="text" name="lng" ng-model="form.lng"/>
+
+                                            Latitude <input type="text" name="lat" ng-model="form.lat"/><br>
+                                            <br>
+                                            <button ng-click="setCurPos()">Set Current</button>
+                                            <br><br>
+                                            <br>
+                                            <button ng-click="addNew(form)">Add New Discount</button>
+                                        </form>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <br><br>
+            <!-- //submission form -->
+
+
+            <div class="container">
+                <div class="clearfix">
+                    <form class="navbar-form navbar-center" name="loginForm" ng-submit="login">
+                        <p style="color: white">user <input type="text" class="form-control" fond
+                                                            ng-model="form.username"/>
+                            pwd<input type="text" class="form-control" ng-model="form.password"/></p>
+                        <button type="submit" class="btn btn-default" ng-click="login()">Login</button>
+                    </form>
+                </div>
+                <p><i>Note: login is for administrator purposes only at this time.</i></p>
+            </div>
+        </div>
+
+        <!-- ///ADMIN login -->
+
+
+        <!-- footer -->
+        <div class="footer">
+            <div class="container" id="contact">
+                <h4 style="color: RebeccaPurple; text-align: center">Contact Us</h4>
+                <div class="contact-grid">
+                    <h6 style="color: RebeccaPurple">LOCATION</h6>
+                    <p class="qwe">New York University</p>
+                </div>
+                <div class="contact-grid">
+                    <h6 style="color: RebeccaPurple">PHONE</h6>
+                    <p class="qwe">None</p>
+                </div>
+                <div class="contact-grid">
+                    <h6 style="color: RebeccaPurple"> EMAIL</h6>
+                    <p class="qwe"><a href="mailto:nyusdg@gmail.com"> <span class="glyphicon glyphicon-envelope"
+                                                                            aria-hidden="true"></span> Mail Us </a></p>
+                </div>
+            </div>
+            <br><br><br>
+            <p style="color:RebeccaPurple; text-align: center">Copyright ©2015 Xiang Wang, All Rights Reserved.
+            <p>
+        </div>
+        <!-- //footer -->
+
+    </div>
+</div>
+</body>
+</html>

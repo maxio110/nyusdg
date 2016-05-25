@@ -1,0 +1,97 @@
+<!-- Filter Bar Start -->
+<nav class="navbar navbar-default " role="navigation">
+    <div class="navbar-header" id="filter-header-table">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#filterNavbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <a href="" style="text-align: center; " class="navbar-brand dropdown" data-toggle="dropdown">Table-Tool <img
+                src="images/up-arrow-1.png"></a>
+        <ul class="dropdown-menu">
+            <li><a><span class="glyphicon glyphicon-list"> Each-Page </span> <input type="number" min="1" max="100"
+                                                                                    ng-model="pageSize"> </a></li>
+        </ul>
+    </div>
+    <div class="navbar-collapse collapse" id="filterNavbar">
+        <ul class="nav navbar-nav ">
+            <li><a href="" ng-click="classify('')"><span class="glyphicon glyphicon-home">     All</span></a></li>
+            <li class="dropdown" ng-repeat="category in categories">
+                <a href="" data-toggle="dropdown" data-hover="dropdown"> <span
+                    class="glyphicon glyphicon-tags">     {{category.name}}</span></a>
+                <ul class="dropdown-menu">
+                    <li ng-repeat="(key,value) in category" ng-if="(key!='name')"><a href="" ng-click="classify(key)">
+                        {{value}}</a>
+                    </li>
+                </ul>
+            </li>
+
+
+            <li><a><span class="glyphicon glyphicon-search"> Search </span> <input ng-model="search_filter" id="search"
+                                                                                   placeholder="Filter text"> </a></li>
+        </ul>
+    </div>
+</nav>
+<!-- Filter Bar End -->
+
+<!-- Main Table -->
+<div id="introduction">
+    <table style="table-layout: fixed"
+           dir-paginate="res in data | filter:search_filter | filter: {category : classifier} | itemsPerPage: pageSize"
+           current-page="pagination.current" class="table table-bordered table-responsive" id="custom-table">
+        <tr>
+            <!--<tr dir-paginate="res ">-->
+            <td class="col-xs-2">
+                <table style="table-layout: auto">
+                    <tr>
+                        <td>
+                            <a href={{res.web}}> <img ng-src="{{res.logo ? res.logo : 'images/noimage.jpg' }}"
+                                                      width="50px"> </a>
+                        </td>
+                        <td>
+                            <table>
+                                <tr>
+                                    <td>
+                                        <a style=" font-size: 17px; color: #E74C3C;" href="" ng-click="toMap(res._id)">{{res.name}}</a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <img src="images/discount_icon.png" width="20px"><sub
+                                            style="font-size:15px; padding-top: 5px; color: #00b3ee;">
+                                        {{res.discount}} </sub>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+            <td class="col-xs-2" style="vertical-align: middle">
+                <table class="table table-striped">
+                    <tr>
+                        <td>
+                            {{res.requirement}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            {{res.info}}
+                        </td>
+                    </tr>
+                </table>
+            </td>
+            <td class="col-xs-1" style=" text-align: center; vertical-align: middle">
+                <button ng-click="remove(res._id)" class="btn btn-info btn-sm">
+                    Delete
+                </button>
+            </td>
+        </tr>
+
+    </table>
+</div>
+<!-- Main Table End -->
+<div class="container">
+    <dir-pagination-controls on-page-change="pageChanged(newPageNumber)"></dir-pagination-controls>
+</div>

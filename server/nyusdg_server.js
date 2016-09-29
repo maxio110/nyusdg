@@ -4,7 +4,7 @@ var mongoose = require('mongoose')
     , hash = require('./password.js').hash
     , sessions = require('client-sessions')
     , dbschema = require('./dbschema.js')
-    , fs  =   require('fs');
+    , fs = require('fs');
 
 mongoose.connect('mongodb://localhost/nyusdg');
 
@@ -164,7 +164,7 @@ app.post('/data/', restrict, function (req, res) {
     var buffer = new Buffer(data, 'base64');
     var cur = new Date();
     var imageurl = '../uploads/' + req.body.name + cur.toISOString() + "." + ext;
-    fs.writeFile(imageurl , buffer);
+    fs.writeFile(imageurl, buffer);
 
     var data1 = new Data(
         {
@@ -175,7 +175,7 @@ app.post('/data/', restrict, function (req, res) {
             requirement: req.body.requirement,
             info: req.body.info,
             web: req.body.web,
-            logo: severurl+imageurl,
+            logo: severurl + imageurl,
             lat: req.body.lat,
             lng: req.body.lng,
             location: req.body.location,
@@ -188,7 +188,6 @@ app.post('/data/', restrict, function (req, res) {
         });
     });
 });
-
 
 
 app.listen(7003);

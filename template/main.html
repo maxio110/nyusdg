@@ -19,7 +19,7 @@
             <li><a href="" ng-click="classify('')"><span class="glyphicon glyphicon-home">     All</span></a></li>
             <li class="dropdown" ng-repeat="category in categories">
                 <a href="" data-toggle="dropdown" data-hover="dropdown"> <span
-                    class="glyphicon glyphicon-tags">     {{category.name}}</span></a>
+                        class="glyphicon glyphicon-tags">     {{category.name}}</span></a>
                 <ul class="dropdown-menu">
                     <li ng-repeat="(key,value) in category" ng-if="(key!='name')"><a href="" ng-click="classify(key)">
                         {{value}}</a>

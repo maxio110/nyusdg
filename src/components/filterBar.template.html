@@ -1,0 +1,43 @@
+<nav class="navbar navbar-default" role="navigation">
+    <!--Tool bar-->
+    <div class="navbar-header">
+        <a href="" class="navbar-brand">Filter</a>
+    </div>
+    <div class="navbar-collapse">
+        <!--Category filter bar-->
+        <ul class="nav navbar-nav">
+            <li>
+                <a href="" ng-click="$ctrl.categoryFilter='';$ctrl.selectedTab=-1">
+                    <span class="glyphicon glyphicon-home" ng-style="$ctrl.selectedTab==-1 ? $ctrl.selectedStyle:{}">
+                        All
+                    </span>
+                </a>
+            </li>
+            <li class="dropdown" uib-dropdown ng-mouseover="$ctrl.dropdownTab=$index" ng-mouseleave="$ctrl.dropdownTab=-1"
+                is-open="$ctrl.dropdownTab==$index" ng-repeat="(name, categoryArr) in $ctrl.categoryList track by $index">
+                <a href="" uib-dropdown-toggle>
+                    <span class="glyphicon glyphicon-tags" ng-style="$ctrl.selectedTab==$index ? $ctrl.selectedStyle:{}">
+                        {{name}}
+                    </span>
+                </a>
+                <ul class="dropdown-mene" uib-dropdown-menu>
+                    <li ng-repeat="category in categoryArr">
+                        <a href="" ng-click="$ctrl.categoryFilter=category; $ctrl.selectedTab=$ctrl.dropdownTab;"
+                           ng-style="$ctrl.categoryFilter==category ? $ctrl.selectedStyle:{}">
+                            {{category}}
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+        <!--Search filter bar-->
+        <ul class="nav navbar-nav">
+            <li>
+                <a>
+                    <span class="glyphicon glyphicon-search"> Search </span>
+                    <input ng-model="$ctrl.searchFilter" id="search" placeholder="Filter text">
+                </a>
+            </li>
+        </ul>
+    </div>
+</nav>

@@ -1,0 +1,94 @@
+<filter-bar category-filter="$ctrl.filters.categoryFilter"
+            search-filter="$ctrl.filters.searchFilter"
+            page-size="$ctrl.pageConfig.pageSize"
+            category-list="$ctrl.categoryList">
+</filter-bar>
+<!-- Main Table -->
+<table class="table table-bordered"
+       dir-paginate="place in $ctrl.placeList | filter: $ctrl.filters.searchFilter | filter: {category : $ctrl.filters.categoryFilter} | itemsPerPage: $ctrl.pageConfig.pageSize"
+       current-page="$ctrl.pageConfig.pagination.current" style="table-layout: fixed">
+    <tr>
+        <!--First Column : Name / Logo / Discount-->
+        <td width="35%">
+            <table>
+                <tr>
+                    <td>
+                        <a href={{place.web_url}}>
+                            <img ng-src="{{place.logo_url ? place.logo_url : 'images/noimage.jpg' }}"
+                                 width="80px">
+                        </a>
+                    </td>
+                    <td>
+                        <table>
+                            <tr>
+                                <td>
+                                    <a style=" font-size: 1.2em; color: #E74C3C;" href=""
+                                       ng-click="$ctrl.detail=place;$ctrl.openPlaceDetailModal(place)">
+                                        {{place.place_name}}
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <img src="images/discount_icon.png" width="40px">
+                                    <sub style="font-size: 1.5em; padding-top: 1%; color: #00b3ee;">
+                                        {{place.discount_percent}}
+                                    </sub>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </td>
+        <!--Second Column : Requirement & Information-->
+        <td width="{{$ctrl.credentials.admin_access || $ctrl.credentials.username==place.username ? '50%' : '65%'}}">
+            <table class="table table-striped" style="font-size: 1.1em">
+                <tr>
+                    <td>
+                        {{place.discount_detail}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        {{place.information}}
+                    </td>
+                </tr>
+            </table>
+        </td>
+        <td ng-if="$ctrl.credentials.admin_access || $ctrl.credentials.username==place.username">
+            <table class="table">
+                <tr>
+                    <td>
+                        <button type="button" class="btn btn-danger button-margin btn-xs"
+                                ng-click="$ctrl.deletePlace(place)">
+                            Delete
+                        </button>
+                    </td>
+                </tr>
+
+                <tr ng-if="$ctrl.credentials.admin_access">
+                    <td>
+                        <form>
+                            <select title="publish_status" name="publish_status"
+                                    ng-init="place.new_publish_status=place.publish_status"
+                                    ng-model="place.new_publish_status"
+                                    ng-change="$ctrl.updatePublishStatus(place,place.new_publish_status)">
+                                <option value="1">Internal</option>
+                                <option value="2">Public</option>
+                                <option value="3">Both</option>
+                                <option value="0">Hide</option>
+                            </select>
+                        </form>
+                    </td>
+                </tr>
+            </table>
+
+
+        </td>
+    </tr>
+</table>
+<!-- Main Table End -->
+<div class="container">
+    <dir-pagination-controls on-page-change="pageChanged(newPageNumber)"></dir-pagination-controls>
+</div>

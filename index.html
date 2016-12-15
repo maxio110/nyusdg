@@ -1,192 +1,136 @@
-<!doctype html>
-<html ng-app="NYUsdg">
+<!DOCTYPE html>
+<html lang="en" ng-app="studentDiscount">
 <head>
     <meta charset="UTF-8">
-    <title>Student Discount Guide</title>
-    <script type="application/x-javascript"> addEventListener("load", function () {
-        setTimeout(hideURLbar, 0);
-    }, false);
-    function hideURLbar() {
-        window.scrollTo(0, 1);
-    } </script>
-    <script src="js/angular.js"></script>
-    <script src="js/angular-route.js"></script>
-    <script src="js/jquery-2.1.3.min.js"></script>
-    <script src="js/bootstrap.js"></script>
-    <script src="js/main.js"></script>
-    <script src="js/angular-smooth-scroll.js"></script>
-    <script src="js/dirPagination.js"></script>
-    <script src="http://maps.googleapis.com/maps/api/js"></script>
-    <!--<script type="text/javascript" src="https://getfirebug.com/firebug-lite-debug.js"></script>-->
-    <!-- bootstrap -->
-    <link href="css/bootstrap.css" rel='stylesheet' type='text/css' media="all"/>
-    <!-- //bootstrap -->
-    <!-- Custom Theme files -->
-    <link href="css/style.css" rel='stylesheet' type='text/css' media="all"/>
-    <!-- top-nav -->
-    <link href="css/component.css" rel="stylesheet" type="text/css"/>
-    <!-- //top-nav -->
+    <meta name="google-signin-client_id" content="676607327103-7nitkouv1085hanu7vbcqv4jjv9dsqlo.apps.googleusercontent.com">
+
+    <title>NYU Student Discount Guide</title>
+    <!--Google Map & Places-->
+    <!--<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCc2b5t1-XsnnDEsBLRdEsvaWp8kc53AVg&libraries=places"></script>-->
+    <!--Test-->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAMF7nierd6EEFzY2YJiTVsBNn2gLPAuAg&libraries=places"></script>
+    <!--Google Login-->
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <!--Angular CDN-->
+    <script src="bower_components/angular/angular.min.js"></script>
+    <!--Angular Modules-->
+    <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+    <script src="bower_components/angularUtils-pagination/dirPagination.js"></script>
+    <script src="bower_components/ngSmoothScroll/lib/angular-smooth-scroll.js"></script>
+    <!--Angular Bootstrap -->
+    <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <!--Stylesheets-->
+    <link rel="stylesheet" href="css/template_style.css">
+    <link rel="stylesheet" href="css/customized_style.css">
+    <script src="src/module.js"></script>
+    <!--Angular Artifacts-->
+    <script src="src/constants.js"></script>
+    <script src="src/config.js"></script>
+
+    <script src="src/services/data.service.js"></script>
+    <script src="src/services/geolocation.service.js"></script>
+    <script src="src/services/map.service.js"></script>
+    <script src="src/services/util.service.js"></script>
+
+    <script src="src/layout/table.controller.js"></script>
+    <script src="src/layout/map.controller.js"></script>
+    <script src="src/layout/main.controller.js"></script>
+    <script src="src/layout/placeForm.controller.js"></script>
+    <script src="src/layout/placeDetail.controller.js"></script>
+    <script src="src/layout/login.controller.js"></script>
+
+    <script src="src/components/filterBar.component.js"></script>
+    <script src="src/components/mapToolBar.component.js"></script>
+    <script src="src/components/adminBar.component.js"></script>
+
 </head>
 
-<body class="cbp-spmenu-push">
-<div ng-controller="MainController">
-    <!--banner-->
-    <div class="top-nav">
-        <nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-right" id="cbp-spmenu-s2">
-            <h3 id="closeRightPush">
-                <button style="background-color: transparent; border: transparent">Menu</button>
-            </h3>
-            <ul>
-                <li><a href="" scroll-to="cbp-spmenu-s2">Top</a></li>
-                <li><a href="" scroll-to="content" ng-click="toggle('#/')">Table</a></li>
-                <li><a href="" scroll-to="content" ng-click="toggle('#/map')">Map</a></li>
-                <li><a href="" scroll-to="about">About</a></li>
-                <li><a href="" scroll-to="contact">Contact</a></li>
-            </ul>
-        </nav>
-        <div class="main buttonset">
-            <!-- Class "cbp-spmenu-open" gets applied to menu and "cbp-spmenu-push-toleft" or "cbp-spmenu-push-toright" to the body -->
-            <button id="showRightPush"><img src="images/logo.png" style="width:50%"/></button>
-            <!--<span class="menu"></span>-->
-        </div>
-        <script src="js/classie.js"></script>
+<body ng-controller="MainController as MainCtrl">
+<nav class="navbar navbar-default navbar-static-top" style="margin:0" id="fake-menu"></nav>
+<nav class="fix-top navbar-header" role="navigation">
+    <button type="button" class="navbar-brand btn btn-default"
+            ng-click="MainCtrl.isMenuCollapsed = !MainCtrl.isMenuCollapsed">
+        <span class="glyphicon glyphicon-menu-right"></span>
+    </button>
+</nav>
+<nav class="navbar navbar-default navbar-fixed-top horizontal-collapse" uib-collapse="MainCtrl.isMenuCollapsed"
+     horizontal>
+    <div class="navbar-header">
+        <a href="" class="navbar-brand" ng-click="MainCtrl.isMenuCollapsed=!MainCtrl.isMenuCollapsed">
+            <span class="glyphicon glyphicon-menu-left"></span>
+        </a>
     </div>
+    <ul class="nav navbar-nav navbar-left">
+        <li>
+            <a ui-sref="table({place_id:''})" ng-click="MainCtrl.scrollToId('fake-menu');"
+               ng-style="MainCtrl.state.current.name=='table' ? MainCtrl.selectedStyle : {}">
+                Table Version
+            </a>
+        </li>
+        <li>
+            <a ui-sref="map({place_id:''})" ng-click="MainCtrl.scrollToId('fake-menu');"
+               ng-style="MainCtrl.state.current.name=='map' ? MainCtrl.selectedStyle : {}">
+                Map Version
+            </a>
+        </li>
+    </ul>
+    <ul class="nav navbar-nav navbar-right" style="margin-right: 10px">
+        <li>
+            <a href="" ng-if="!MainCtrl.credentials.username" ui-sref="login"
+               ng-click="MainCtrl.scrollToId('content');">
+                Login
+            </a>
 
-    <!--//banner-->
+            <a href="" ng-if="MainCtrl.credentials.username"
+               ng-click="MainCtrl.logout();MainCtrl.scrollToId('content')">
+                Logout {{MainCtrl.credentials.username}}
+            </a>
+        </li>
+    </ul>
+</nav>
 
-    <div class="cover" id="home">
-        <div class="container">
-            <div class="header">
-                <div class="banner-info">
-                    <h3>NYU STUDENT DISCOUNT GUIDE</h3>
-                </div>
-                <div class="intro">
-                    <a scroll-to="content" ng-click="toggle('#/')" style="margin-right: 15px;"
-                       class="btn btn-info btn-lg">
-                        Table Version
-                    </a>
-                    <a scroll-to="content" ng-click="toggle('#/map')" style="margin-left: 15px;"
-                       class="btn btn-success btn-lg">
-                        Map Version
-                    </a>
-                </div>
-            </div>
-        </div>
+
+<section id="content">
+    <ui-view></ui-view>
+    <div id="google-map" class="map-cover" ng-show="MainCtrl.state.current.name=='map'"></div>
+</section>
+
+<!-- about-us -->
+<section class="about-us" id="about">
+    <h3>About Us</h3>
+    <p class="ut">We are students at NYU who just want to help fellow students save money where the can.</p>
+</section>
+
+<div class="contact">
+    <p>Know an amazing discount you don't see listed here yet? </p>
+    <div class="con">
+        <a ng-click="MainCtrl.openAddNewPlaceModal(MainCtrl.newPlaceForm)" href=""
+           class="b-link-stripe b-animate-go hvr-bounce-to-bottom">Submit a Discount</a>
     </div>
-
-    <div id="content">
-        <div ng-view></div>
-        <!-- about-us -->
-        <div class="about-us" id="about">
-            <div class="container">
-                <h3>About Us</h3>
-                <p class="ut">We are students at NYU who just want to help fellow students save money where the can.</p>
-
-            </div>
-        </div>
-
-        <!-- about-us -->
-        <!-- submission form -->
-        <div class="contact">
-            <div class="container">
-                <p>Know an amazing discount you don't see listed here yet? </p>
-                <div class="con">
-                    <a data-toggle="modal" data-target=".bs-example-modal-md" href=""
-                       class="b-link-stripe b-animate-go  thickbox hvr-bounce-to-bottom">Submit a Discount</a>
-                </div>
-                <a data-toggle="modal" data-target=".bs-example-modal-md" href=""> </a>
-                <div id="upLoadModal" class="modal fade bs-example-modal-md light-box" tabindex="-1" role="dialog"
-                     aria-labelledby="mySmallModalLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-md">
-                        <div class="modal-content light-box-info">
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><img
-                                    src="images/close.png" title="close"/></button>
-                            <div class="pop">
-                                <div class="contact-grids">
-                                    <div class="inp">
-                                        <form id="uploadForm" enctype="multipart/form-data">
-                                            <h4>New Store - Admin use only</h4>
-                                            Store Name : Category <select name="category" ng-model="form.category">
-                                            <optgroup ng-repeat="category in categories" label="{{category.name}}">
-                                                <option ng-repeat="(key, value) in category" value="{{key}}">{{value}}
-                                                </option>
-                                            </optgroup>
-                                        </select> <input name="name" type="text" ng-model="form.name"/>
-                                            Discount Given (%) <input name="discount" type="text"
-                                                                      ng-model="form.discount"/>
-                                            Requirements <input name="requirement" type="text"
-                                                                ng-model="form.requirement"/>
-                                            Additional Information <input name="info" type="text" ng-model="form.info"/>
-                                            Website <input name="web" type="text" ng-model="form.web"/>
-                                            Logo URL <input name="logo" type="text" ng-model="form.logo"/>
-                                            Address <input name="location" type="text" ng-model="form.location"/>
-                                            Phone <input name="phone" type="text" ng-model="form.phone"/>
-
-                                            File <input type="file" name="storePhoto" fileread="form.storePhoto"/>
-
-                                            Longitude <input type="text" name="lng" ng-model="form.lng"/>
-
-                                            Latitude <input type="text" name="lat" ng-model="form.lat"/><br>
-                                            <br>
-                                            <button ng-click="setCurPos()">Set Current</button>
-                                            <br><br>
-                                            <br>
-                                            <button ng-click="addNew(form)">Add New Discount</button>
-                                        </form>
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-            <br><br>
-            <!-- //submission form -->
-
-
-            <div class="container">
-                <div class="clearfix">
-                    <form class="navbar-form navbar-center" name="loginForm" ng-submit="login">
-                        <p style="color: white">user <input type="text" class="form-control" fond
-                                                            ng-model="form.username"/>
-                            pwd<input type="text" class="form-control" ng-model="form.password"/></p>
-                        <button type="submit" class="btn btn-default" ng-click="login()">Login</button>
-                    </form>
-                </div>
-                <p><i>Note: login is for administrator purposes only at this time.</i></p>
-            </div>
-        </div>
-
-        <!-- ///ADMIN login -->
-
-
-        <!-- footer -->
-        <div class="footer">
-            <div class="container" id="contact">
-                <h4 style="color: RebeccaPurple; text-align: center">Contact Us</h4>
-                <div class="contact-grid">
-                    <h6 style="color: RebeccaPurple">LOCATION</h6>
-                    <p class="qwe">New York University</p>
-                </div>
-                <div class="contact-grid">
-                    <h6 style="color: RebeccaPurple">PHONE</h6>
-                    <p class="qwe">None</p>
-                </div>
-                <div class="contact-grid">
-                    <h6 style="color: RebeccaPurple"> EMAIL</h6>
-                    <p class="qwe"><a href="mailto:nyusdg@gmail.com"> <span class="glyphicon glyphicon-envelope"
-                                                                            aria-hidden="true"></span> Mail Us </a></p>
-                </div>
-            </div>
-            <br><br><br>
-            <p style="color:RebeccaPurple; text-align: center">Copyright ©2015 Xiang Wang, All Rights Reserved.
-            <p>
-        </div>
-        <!-- //footer -->
-
-    </div>
+    <br><br>
 </div>
+
+
+<footer class="footer" id="contact">
+    <h4>Contact Us</h4>
+    <section class="contact-grid">
+        <h6>LOCATION</h6>
+        <p>New York University</p>
+    </section>
+    <section class="contact-grid">
+        <h6>PHONE</h6>
+        <p>None</p>
+    </section>
+    <section class="contact-grid">
+        <h6>EMAIL</h6>
+        <p><a href="mailto:nyusdg@gmail.com">
+            <span class="glyphicon glyphicon-envelope"
+                  aria-hidden="true"></span> Mail Us </a></p>
+    </section>
+    <br><br><br>
+    <p style="color:RebeccaPurple; text-align: center">Copyright ©2016 Xiang Wang, All Rights Reserved.
+    <p>
+</footer>
 </body>
 </html>

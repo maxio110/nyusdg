@@ -1,0 +1,37 @@
+<!--banner-->
+<header class="cover header" id="banner">
+    <section class="banner-info">
+        <h3>NYU STUDENT DISCOUNT GUIDE</h3>
+    </section>
+    <section class="intro">
+        <form name="loginForm" novalidate>
+            <table class="login-table">
+                <tr>
+                    <td>
+                        NetId
+                    </td>
+                    <td>
+                        <input title="username" name="username" type="text" class="form-control" ng-model="$ctrl.loginForm.username" required/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        pwd
+                    </td>
+                    <td>
+                        <input title="password" name="password" type="password" class="form-control" ng-model="$ctrl.loginForm.password" required/>
+                    </td>
+                    <td></td>
+                </tr>
+            </table>
+        </form>
+
+        <br>
+        <button type="submit" class="btn btn-default" ng-disabled="loginForm.$invalid"
+                ng-click="$ctrl.login($ctrl.loginForm.username, $ctrl.loginForm.password)">Login
+        </button>
+        <div class="g-signin2" data-onsuccess="onSignIn"></div>
+        <p><i>Note: Login and add new place is only for student with NYU NetId at this time.</i></p>
+    </section>
+</header>
+

@@ -1,0 +1,16 @@
+<nav class="navbar navbar-default " role="navigation">
+    <!--Tool bar-->
+    <div class="navbar-header">
+        <a href="" class="navbar-brand">Tool</a>
+    </div>
+    <div class="navbar-collapse collapse">
+        <!--Category filter bar-->
+        <ul class="nav navbar-nav">
+            <li ng-repeat="(center, info) in $ctrl.centerData">
+                <a href="" ng-click="$ctrl.setNewCenter(info)" >
+                    <span class="glyphicon glyphicon-home" ng-style="$ctrl.currentCenter==info.name ? $ctrl.selectedStyle : {}"> {{info.name}}</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+</nav>

@@ -1,0 +1,21 @@
+{
+  "name": "nyu_student_discount",
+  "authors": [
+    "Xiang Wang"
+  ],
+  "description": "",
+  "main": "index.html",
+  "license": "MIT",
+  "homepage": "www.maxiowang.com",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angularUtils-pagination": "angular-utils-pagination#^0.11.1",
+    "ngSmoothScroll": "^2.0.0"
+  }
+}

@@ -1,0 +1,69 @@
+/*Modal*/
+.modal-title {
+    color: red;
+}
+
+.modal-body span {
+    color: RebeccaPurple;
+}
+
+.modal-body a {
+    color: dodgerblue;
+}
+
+.button-margin {
+    margin-left: 5%;
+}
+
+/*Table*/
+.login-table {
+    width: 100%;
+    text-align: right;
+    color: white;
+}
+.login-table td {
+    width: 36%;
+    padding: 1%;
+}
+
+.login-table input {
+    width: 80%;
+}
+
+.login-table .short-input {
+    width: 20em;
+}
+
+/*Misc*/
+.fix-top {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+}
+
+.version-active {
+    color:red;
+}
+
+/*Fix-Google-Places*/
+.pac-container {
+    z-index: 100000;
+}
+
+/*Form Validation*/
+.ng-touched.ng-valid {
+    border: 1px dodgerblue solid;
+}
+
+.ng-touched.ng-invalid {
+    border: 1px red solid;
+}
+
+.required-star {
+    color: red !important;
+}
+
+.error-msg {
+    color: red !important;
+}

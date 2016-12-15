@@ -1,0 +1,210 @@
+<!-- submission form -->
+<div class="modal-header">
+    <button type="button" class="close" ng-click="$ctrl.cancel()">
+        <span style="font-size: 2em">&times;</span>
+    </button>
+    <h4 class="modal-title">{{$ctrl.title}}</h4>
+</div>
+<div class="modal-body">
+    <form name="placeForm" ng-submit="" novalidate>
+        <table class="table table-responsive">
+            <tr>
+                <td>
+                    <span>Store Name</span>
+                </td>
+                <td>
+                    <input title="place_name" name="place_name" type="text" id="name-auto-complete" ng-init="$ctrl.initAutoComplete()"
+                           required ng-maxlength="30"
+                           ng-model="$ctrl.placeForm.place_name"/>
+                    <span class="required-star"> * </span>
+
+                    <span class="error-msg" ng-if="placeForm.place_name.$error.required && placeForm.place_name.$touched">
+                        <br>Place name should not be empty
+                    </span>
+                    <span class="error-msg" ng-if="placeForm.place_name.$error.maxlength && placeForm.place_name.$touched">
+                        <br>Place name must be less than 30 characters long
+                    </span>
+                </td>
+
+                <td>
+                    <span>Category</span>
+                </td>
+                <td>
+                    <select title="category" name="category" ng-model="$ctrl.placeForm.category" required>
+                        <optgroup ng-repeat="(name, categoryArr) in $ctrl.categoryList"
+                                  label="{{name}}">
+                            <option ng-repeat="category in categoryArr" value="{{category}}">
+                                {{category}}
+                            </option>
+                        </optgroup>
+                    </select>
+                    <span class="required-star"> * </span>
+
+                    <span class="error-msg" ng-if="placeForm.category.$error.required && placeForm.category.$touched">
+                        <br>Category should not be empty
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span>Discount Given (%) </span>
+                </td>
+                <td>
+                    <input title="discount_percent" name="discount_percent" type="text"
+                           pattern="\d\d?" required
+                           ng-model="$ctrl.placeForm.discount_percent"/>
+                    <span class="required-star"> * </span>
+
+                    <span class="error-msg" ng-if="placeForm.discount_percent.$invalid && placeForm.discount_percent.$touched">
+                        <br>Discount should be one to two digits number
+                    </span>
+                </td>
+                <td>
+                    <span>Requirements</span>
+                </td>
+                <td>
+                    <input title="discount_detail" name="discount_detail" type="text"
+                           ng-maxlength="100" required
+                           ng-model="$ctrl.placeForm.discount_detail"/>
+                    <span class="required-star"> * </span>
+
+                    <span class="error-msg" ng-if="placeForm.discount_detail.$error.required && placeForm.discount_detail.$touched">
+                        <br>Discount requirements is required
+                    </span>
+                    <span class="error-msg" ng-if="placeForm.discount_detail.$error.maxlength && placeForm.discount_detail.$touched">
+                        <br>Discount requirements must be less than 100 characters long
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span>Additional Information</span>
+                </td>
+                <td>
+                    <input title="information" name="information" type="text"
+                           ng-maxlength="100"
+                           ng-model="$ctrl.placeForm.information"/>
+
+                    <span class="error-msg" ng-if="placeForm.information.$error.maxlength && placeForm.information.$touched">
+                        <br>Additional Information must be less than 100 characters long
+                    </span>
+                </td>
+                <td>
+                    <span>Website</span>
+                </td>
+                <td>
+                    <input title="web_url" name="web_url" type="text" ng-model="$ctrl.placeForm.web_url"
+                    ng-maxlength="150"/>
+
+                    <span class="error-msg" ng-if="placeForm.web_url.$error.maxlength && placeForm.web_url.$touched">
+                        <br>Web url must be less than 150 characters long
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span>Logo URL</span>
+                </td>
+                <td>
+                    <input title="logo_url" name="logo_url" type="text" ng-model="$ctrl.placeForm.logo_url"
+                    ng-maxlength="150"/>
+                    <img src="{{$ctrl.placeForm.logo_url}}" width="15px"/>
+
+                    <span class="error-msg" ng-if="placeForm.logo_url.$error.maxlength && placeForm.logo_url.$touched">
+                        <br>Logo url must be less than 150 characters long
+                    </span>
+                </td>
+                <td>
+                    <span>Address</span>
+                </td>
+                <td>
+                    <input title="address" name="address" type="text" ng-model="$ctrl.placeForm.address"
+                    ng-maxlength="50" required/>
+                    <span class="required-star"> * </span>
+
+                    <span class="error-msg" ng-if="placeForm.address.$error.required && placeForm.address.$touched">
+                        <br>Address is required
+                    </span>
+                    <span class="error-msg" ng-if="placeForm.address.$error.maxlength && placeForm.address.$touched">
+                        <br>Address must be less than 50 characters long
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span>Phone</span>
+                </td>
+                <td>
+                    <input title="phone" name="phone" type="text" ng-model="$ctrl.placeForm.phone"
+                           ng-maxlength="30"/>
+
+                    <span class="error-msg" ng-if="placeForm.phone.$invalid && placeForm.phone.$touched">
+                        <br>Phone should be number
+                    </span>
+                    <span class="error-msg" ng-if="placeForm.phone.$error.maxlength && placeForm.phone.$touched">
+                        <br>Phone must be less than 30 characters long
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span>Longitude</span>
+                        <input title="longitude" name="longitude" type="text" ng-model="$ctrl.placeForm.longitude"
+                               pattern="-?\d+\.?\d+"  required/>
+                    <span class="required-star"> * </span>
+
+                    <span class="error-msg" ng-if="placeForm.longitude.required && placeForm.longitude.$touched">
+                        <br>Longitude is required
+                    </span>
+                    <span class="error-msg" ng-if="placeForm.longitude.$invalid && placeForm.longitude.$touched">
+                        <br>Longitude should be float number
+                    </span>
+                </td>
+                <td>
+                    <span>Latitude</span>
+                    <input title="latitude" name="latitude" type="text" ng-model="$ctrl.placeForm.latitude"
+                           pattern="-?\d+\.?\d+" required/>
+                    <span class="required-star"> * </span>
+
+                    <span class="error-msg" ng-if="placeForm.latitude.required && placeForm.latitude.$touched">
+                        <br>Latitude is required
+                    </span>
+                    <span class="error-msg" ng-if="placeForm.latitude.$invalid && placeForm.latitude.$touched">
+                        <br>Latitude should be float number
+                    </span>
+
+                </td>
+                <td> Auto update geolocation
+
+                </td>
+                <td>
+                    <span>
+                    <button ng-click="$ctrl.toggleGeolocation()" class="btn btn-xs"
+                            ng-class="$ctrl.useGeolocation ? 'btn-success' : 'btn-danger'">
+                        {{$ctrl.useGeolocation? "Activated" : "Deactivated"}}
+                    </button>
+                </span>
+                </td>
+            </tr>
+            <tr ng-if="$ctrl.placeForm.google_place_url">
+                <td>
+                    <a href="{{$ctrl.placeForm.google_place_url}}">Related Google Place Url</a>
+                </td>
+                <td>
+                    <button class="btn btn-xs btn-danger" ng-click="$ctrl.clearGooglePlaceInfo()">
+                        Delete Google Place Info
+                    </button>
+                </td>
+            </tr>
+        </table>
+        <br>
+    </form>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" ng-click="$ctrl.clearAll()">Clear All</button>
+        <button type="button" class="btn btn-default" ng-click="$ctrl.cancel()">Close</button>
+        <button type="button" ng-disabled="placeForm.$invalid" class="btn"
+                ng-class="placeForm.$invalid ? 'btn-danger' : 'btn-success'" ng-click="$ctrl.submit()">
+            {{$ctrl.submitButtonText}}
+        </button>
+    </div>
+</div>

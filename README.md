@@ -4,10 +4,7 @@ NYU Student Discount Guide
 
 ## Getting Started
 
-Front End: Angular JS framework with a router providing two views:
- 
-1. Table version -> template/main.html 
-2. Map version -> template/map.html
+This is the sample for the front end code, to view the application please go to www.nyustudentdiscount.com
 
 ## Authors
 

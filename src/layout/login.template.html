@@ -11,27 +11,39 @@
                         NetId
                     </td>
                     <td>
-                        <input title="username" name="username" type="text" class="form-control" ng-model="$ctrl.loginForm.username" required/>
+                        <input title="username" name="username" type="text" class="form-control"
+                               ng-model="$ctrl.loginForm.username" required/>
                     </td>
+                    <td></td>
                 </tr>
                 <tr>
                     <td>
                         pwd
                     </td>
                     <td>
-                        <input title="password" name="password" type="password" class="form-control" ng-model="$ctrl.loginForm.password" required/>
+                        <input title="password" name="password" type="password" class="form-control"
+                               ng-model="$ctrl.loginForm.password" required/>
                     </td>
                     <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td style="text-align: center;">
+                        <div style="width: 80%">
+                            <div id="nyu-login" ng-click="$ctrl.loginWithNetId($ctrl.loginForm)">
+                                <div class="icon-wrapper">
+                                    <span class="icon"></span>
+                                </div>
+                                <span class="button-text">Sign in</span>
+                            </div> <br>
+                            <span style="display: inline-block; margin-top:10%" id="google-login"></span>
+                        </div>
+                    </td>
                 </tr>
             </table>
         </form>
 
-        <br>
-        <button type="submit" class="btn btn-default" ng-disabled="loginForm.$invalid"
-                ng-click="$ctrl.login($ctrl.loginForm.username, $ctrl.loginForm.password)">Login
-        </button>
-        <div class="g-signin2" data-onsuccess="onSignIn"></div>
-        <p><i>Note: Login and add new place is only for student with NYU NetId at this time.</i></p>
+        <p><i></i></p>
     </section>
 </header>
 

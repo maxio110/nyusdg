@@ -8,10 +8,10 @@
         .module('studentDiscount')
         .service('DataService', DataService);
 
-    DataService.$inject = ['SERVER_BASE_URL', 'DATA_TYPE', '$q', '$http', 'DEBUG', '$state', 'TOKEN_KEY', 'ERROR'];
+    DataService.$inject = ['SERVER_BASE_URL', 'DATA_TYPE', '$q', '$http', 'DEBUG', '$state', 'TOKEN_KEY', 'ERROR', 'GOOGLE_SIGNIN_CLIENTID'];
 
     /* @ngInject */
-    function DataService(SERVER_BASE_URL, DATA_TYPE, $q, $http, DEBUG, $state, TOKEN_KEY, ERROR) {
+    function DataService(SERVER_BASE_URL, DATA_TYPE, $q, $http, DEBUG, $state, TOKEN_KEY, ERROR, GOOGLE_SIGNIN_CLIENTID) {
         var DataService = this;
 
         DataService.deletePlace = deletePlace;
@@ -19,7 +19,8 @@
         DataService.updatePlace = updatePlace;
         DataService.updatePublishStatus = updatePublishStatus;
 
-        DataService.login = login;
+        DataService.loginWithNetId = loginWithNetId;
+        DataService.loginWithGoogle = loginWithGoogle;
         DataService.logout = logout;
 
         DataService.getCachedData = getCachedData;
@@ -32,6 +33,8 @@
         ////////////////
         var cachedData = {};
         var dataListeners = {};
+        var auth2;
+
         activate();
 
         function activate() {
@@ -48,10 +51,16 @@
                     removeTokenStringFromStorage();
                 }
             }
-
-            getLatestPlaceList();
             getLatestCategoryList();
-            // login("xw1173", "Wpb637611!!");
+            getLatestPlaceList();
+
+            gapi.load('auth2', function () {
+                auth2 = gapi.auth2.init({
+                    client_id: GOOGLE_SIGNIN_CLIENTID,
+                    scope: 'profile email',
+                    fetch_basic_profile: true
+                });
+            })
         }
 
         /**
@@ -135,13 +144,12 @@
         }
 
         /**
-         * Login with username and password
-         * @param username Username
+         * Login with netid and password
+         * @param netId NetId
          * @param pwd Password
-         * @returns {Promise}
          */
-        function login(username, pwd) {
-            httpPostToServer({OPERATION: "LOGIN", USERNAME: username, PWD: pwd}, false)
+        function loginWithNetId(netId, pwd) {
+            httpPostToServer({OPERATION: "LOGIN_NETID", NETID: netId, PWD: pwd}, false)
                 .then(function (successResponse) {
                         if (typeof successResponse == 'object') {
                             var token = parseTokenString(successResponse.jwt);
@@ -150,13 +158,37 @@
                             getLatestPlaceList();
                             $state.go('table/')
                         } else {
-                            alert(successResponse);
+                            alert(ERROR.UNKNOWN_SERVER_ERROR);
                         }
                     }, function (errorResponse) {
                         alert(errorResponse);
                     }
                 );
         }
+
+        /**
+         * Login with Google token
+         * @param token Token
+         */
+        function loginWithGoogle(token) {
+            httpPostToServer({OPERATION: "LOGIN_GOOGLE", GOOGLE_TOKEN: token}, false)
+                .then(function (successResponse) {
+                        if (typeof successResponse == 'object') {
+                            var token = parseTokenString(successResponse.jwt);
+                            saveTokenStringToStorage(successResponse.jwt);
+                            updateCachedData(token, DATA_TYPE.CREDENTIALS);
+                            getLatestPlaceList();
+                            $state.go('table/')
+                        } else {
+                            alert(ERROR.UNKNOWN_SERVER_ERROR);
+                        }
+                    }, function (errorResponse) {
+                        alert(errorResponse);
+                    }
+                );
+        }
+
+
 
         /**
          * Check if the current token is expired
@@ -193,10 +225,12 @@
         }
 
         /**
-         * Logout and return the promise
-         * @returns {Promise}
+         * Logout and remove credential storage
          */
         function logout() {
+            if (auth2) {
+                auth2.signOut().then(function () {});
+            }
             updateCachedData([], DATA_TYPE.CREDENTIALS);
             removeTokenStringFromStorage();
         }
@@ -211,7 +245,7 @@
                     if (typeof data == 'object') {
                         updateCachedData(data, DATA_TYPE.PLACE_LIST);
                     } else {
-                        alert(data);
+                        alert(ERROR.UNKNOWN_SERVER_ERROR);
                     }
                 }, function (errorResponse) {
                     alert(errorResponse);
@@ -235,7 +269,7 @@
                         }
                         updateCachedData(categoryList, DATA_TYPE.CATEGORY_LIST);
                     } else {
-                        alert(data);
+                        alert(ERROR.UNKNOWN_SERVER_ERROR);
                     }
                 }, function (errorResponse) {
                     alert(errorResponse);

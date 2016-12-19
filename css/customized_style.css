@@ -67,3 +67,48 @@
 .error-msg {
     color: red !important;
 }
+
+#nyu-login {
+    vertical-align: top;
+    background: white;
+    background-size: 100px 25px;
+    display: inline-block;
+    color:dimgray;
+    text-align:center;
+    box-shadow: 0 2px 4px 0 rgba(0,0,0,.25);
+    border-radius: 1px;
+    width: 100px;
+    height: 25px;
+}
+
+#nyu-login:hover {
+    cursor: pointer;
+    box-shadow: 0 2px 4px 0 rebeccapurple;
+}
+
+#nyu-login .icon-wrapper {
+    width: 25px;
+    float:left;
+    height: 25px;
+    padding: 2px;
+}
+
+#nyu-login span.icon {
+    background: url('/images/nyu_icon.jpg') no-repeat;
+    background-size: 21px 21px;
+    width: 21px;
+    height: 21px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+#nyu-login span.button-text {
+    display: inline-block;
+    vertical-align: middle;
+    margin-top: 0.5px;
+    margin-left: 3px;
+    margin-right: 6px;
+    font-size: 11px;
+    letter-spacing: .21px;
+    line-height: 24px;
+}

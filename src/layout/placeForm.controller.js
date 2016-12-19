@@ -25,7 +25,8 @@
         $ctrl.cancel = cancel;
 
         ////////////////
-        var autoComplete = {};
+        var autoComplete;
+        var autoCompleteListener;
         activate();
 
         function activate() {
@@ -47,19 +48,18 @@
 
             $scope.$on('$destroy', function iVeBeenDismissed() {
                 GeolocationService.unsubscribeToListeners(updatePosition);
+                google.maps.event.removeListener(autoCompleteListener);
+                google.maps.event.clearInstanceListeners(autoComplete);
             });
         }
 
         function initAutoComplete() {
-            if (angular.equals(autoComplete, {})) {
-                console.log("Activate");
+            if (!autoComplete) {
                 var input = document.getElementById('name-auto-complete');
                 if (input) {
-                    autoComplete = new google.maps.places.Autocomplete(
-                        /** @type {!HTMLInputElement} */ (
-                            document.getElementById('name-auto-complete')), {});
+                    autoComplete = new google.maps.places.Autocomplete(input);
                     //If user click on one of the suggested item
-                    autoComplete.addListener('place_changed', onPlaceChanged);
+                    autoCompleteListener =  google.maps.event.addListener(autoComplete, 'place_changed', onPlaceChanged);
                 }
             }
         }
@@ -104,7 +104,6 @@
 
         function updatePosition(pos) {
             if (pos) {
-                console.log(pos);
                 $ctrl.placeForm.longitude = pos.coords.longitude;
                 $ctrl.placeForm.latitude = pos.coords.latitude;
                 $scope.$apply();

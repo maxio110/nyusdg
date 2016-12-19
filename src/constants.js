@@ -48,5 +48,6 @@
             CREDENTIALS: "CREDENTIALS"
         })
         .constant("TOKEN_KEY", "NYU_STUDENT_DISCOUNT_TOKEN")
+        .constant("GOOGLE_SIGNIN_CLIENTID", "676607327103-7nitkouv1085hanu7vbcqv4jjv9dsqlo.apps.googleusercontent.com")
 
 })();

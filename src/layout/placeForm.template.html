@@ -13,7 +13,7 @@
                     <span>Store Name</span>
                 </td>
                 <td>
-                    <input title="place_name" name="place_name" type="text" id="name-auto-complete" ng-init="$ctrl.initAutoComplete()"
+                    <input title="place_name" type="text" id="name-auto-complete" ng-change="$ctrl.initAutoComplete()"
                            required ng-maxlength="30"
                            ng-model="$ctrl.placeForm.place_name"/>
                     <span class="required-star"> * </span>
@@ -188,7 +188,7 @@
             </tr>
             <tr ng-if="$ctrl.placeForm.google_place_url">
                 <td>
-                    <a href="{{$ctrl.placeForm.google_place_url}}">Related Google Place Url</a>
+                    <a href="{{$ctrl.placeForm.google_place_url}}" target="_blank">Related Google Place Url</a>
                 </td>
                 <td>
                     <button class="btn btn-xs btn-danger" ng-click="$ctrl.clearGooglePlaceInfo()">

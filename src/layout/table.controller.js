@@ -87,7 +87,7 @@
         function openPlaceDetailModal(form) {
             if ($ctrl.credentials.admin_access || form.username == $ctrl.credentials.username) {
                 var copy = JSON.parse(JSON.stringify(form));
-                var addNewPlaceModalInstance = $uibModal.open({
+                var updatePlaceModalInstance = $uibModal.open({
                     animation: true,
                     ariaLabelledBy: 'modal-title',
                     ariaDescribedBy: 'modal-body',
@@ -95,7 +95,6 @@
                     controller: 'PlaceFormController',
                     controllerAs: '$ctrl',
                     size: 'lg', // 'sm'
-                    appendTo: undefined,
                     resolve: {
                         placeForm: function () {
                             return copy;
@@ -107,7 +106,7 @@
                 });
 
                 // Close -> Dismiss
-                addNewPlaceModalInstance.result.then(function (placeForm) {}, function () {});
+                updatePlaceModalInstance.result.then(function (placeForm) {}, function () {});
             } else {
                 var placeDetailModalInstance = $uibModal.open({
                     animation: true,
@@ -117,7 +116,6 @@
                     controller: 'PlaceDetailController',
                     controllerAs: '$ctrl',
                     size: 'lg', // 'sm'
-                    appendTo: undefined,
                     resolve: {
                         placeDetail: function () {
                             return form;

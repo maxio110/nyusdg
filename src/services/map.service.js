@@ -35,7 +35,6 @@
         MapService.updateUserPosition = updateUserPosition;
         MapService.triggerMarker = triggerMarker;
 
-
         ////////////////
         var cached_map;
         var infoWindow;

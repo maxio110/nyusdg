@@ -42,7 +42,6 @@
 
         ////////////////
         activate();
-
         function logout() {
             DataService.logout();
         }
@@ -76,7 +75,6 @@
                 controller: 'PlaceFormController',
                 controllerAs: '$ctrl',
                 size: 'lg', // 'sm'
-                appendTo: undefined,
                 resolve: {
                     placeForm: function () {
                         return form;
@@ -90,9 +88,7 @@
             // Close -> Dismiss
             addNewPlaceModalInstance.result.then(function (placeForm) {
                 MainCtrl.placeForm = placeForm;
-            }, function () {
-                console.log("Dismissed!!!");
-            });
+            }, function () {});
         }
     }
 

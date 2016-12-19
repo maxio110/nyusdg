@@ -2,7 +2,6 @@
 <html lang="en" ng-app="studentDiscount">
 <head>
     <meta charset="UTF-8">
-    <meta name="google-signin-client_id" content="676607327103-7nitkouv1085hanu7vbcqv4jjv9dsqlo.apps.googleusercontent.com">
 
     <title>NYU Student Discount Guide</title>
     <!--Google Map & Places-->
@@ -10,7 +9,7 @@
     <!--Test-->
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAMF7nierd6EEFzY2YJiTVsBNn2gLPAuAg&libraries=places"></script>
     <!--Google Login-->
-    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <script src="https://apis.google.com/js/platform.js"></script>
     <!--Angular CDN-->
     <script src="bower_components/angular/angular.min.js"></script>
     <!--Angular Modules-->
@@ -96,24 +95,21 @@
     <div id="google-map" class="map-cover" ng-show="MainCtrl.state.current.name=='map'"></div>
 </section>
 
-<!-- about-us -->
-<section class="about-us" id="about">
-    <h3>About Us</h3>
-    <p class="ut">We are students at NYU who just want to help fellow students save money where the can.</p>
-</section>
-
-<div class="contact">
+<!-- add new place -->
+<section class="contact">
     <p>Know an amazing discount you don't see listed here yet? </p>
     <div class="con">
         <a ng-click="MainCtrl.openAddNewPlaceModal(MainCtrl.newPlaceForm)" href=""
            class="b-link-stripe b-animate-go hvr-bounce-to-bottom">Submit a Discount</a>
     </div>
-    <br><br>
-</div>
+    <br>
+    <p style="font-size:12px;">Note: NYU Student can add 3 places and other Google users can add 1 place for now</p>
+</section>
 
+<!--<section class="about-us" id="about"></section>-->
 
 <footer class="footer" id="contact">
-    <h4>Contact Us</h4>
+    <h4>Just want to help fellow students save money where the can.</h4>
     <section class="contact-grid">
         <h6>LOCATION</h6>
         <p>New York University</p>
@@ -129,8 +125,8 @@
                   aria-hidden="true"></span> Mail Us </a></p>
     </section>
     <br><br><br>
-    <p style="color:RebeccaPurple; text-align: center">Copyright ©2016 Xiang Wang, All Rights Reserved.
-    <p>
+    <p style="color:RebeccaPurple; text-align: center">Copyright ©2016 Xiang Wang, All Rights Reserved.</p>
+    <script type="text/javascript" src="https://cdn.ywxi.net/js/1.js" async></script>
 </footer>
 </body>
 </html>

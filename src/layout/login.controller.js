@@ -14,7 +14,7 @@
     function LoginController(DataService, WINDOW_SIZE, $state, $scope, DATA_TYPE) {
         var $ctrl = this;
 
-        $ctrl.login = login;
+        $ctrl.loginWithNetId = loginWithNetId;
         ////////////////
         activate();
 
@@ -38,11 +38,29 @@
             $scope.$on('$destroy', function iVeBeenDismissed() {
                 DataService.unsubscribeToListeners(updateData, DATA_TYPE.CREDENTIALS);
             });
+
+            gapi.signin2.render('google-login', {
+                'scope': 'profile email',
+                'width': 100,
+                'height': 25,
+                'longtitle': false,
+                'onsuccess': onSuccess,
+                'onfailure': onFailure
+            });
         }
 
 
-        function login(username, pwd) {
-            DataService.login(username, pwd);
+        function loginWithNetId(form) {
+            DataService.loginWithNetId(form.username, form.password);
+        }
+
+        function onSuccess(googleUser) {
+            var token = googleUser.getAuthResponse().id_token;
+            DataService.loginWithGoogle(token);
+        }
+
+        function onFailure(error) {
+            alert(error);
         }
 
     }

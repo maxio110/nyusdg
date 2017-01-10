@@ -10,8 +10,10 @@
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAMF7nierd6EEFzY2YJiTVsBNn2gLPAuAg&libraries=places"></script>
     <!--Google Login-->
     <script src="https://apis.google.com/js/platform.js"></script>
-    <!--Angular CDN-->
+    <!--Angular Library-->
     <script src="bower_components/angular/angular.min.js"></script>
+    <script src="bower_components/angular-animate/angular-animate.min.js"></script>
+    <script src="bower_components/angular-sanitize/angular-sanitize.min.js"></script>
     <!--Angular Modules-->
     <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
     <script src="bower_components/angularUtils-pagination/dirPagination.js"></script>
@@ -41,8 +43,6 @@
 
     <script src="src/components/filterBar.component.js"></script>
     <script src="src/components/mapToolBar.component.js"></script>
-    <script src="src/components/adminBar.component.js"></script>
-
 </head>
 
 <body ng-controller="MainController as MainCtrl">
@@ -88,7 +88,6 @@
         </li>
     </ul>
 </nav>
-
 
 <section id="content">
     <ui-view></ui-view>

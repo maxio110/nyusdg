@@ -51,7 +51,7 @@
                 templateUrl: 'src/layout/table.template.html',
                 controller: 'TableViewController as $ctrl',
                 resolve: {
-                    idFilter: ['$stateParams', function($stateParams) {
+                    idFilter: ['$stateParams', function ($stateParams) {
                         return $stateParams.place_id;
                     }]
                 }
@@ -61,7 +61,7 @@
                 templateUrl: 'src/layout/map.template.html',
                 controller: 'MapViewController as $ctrl',
                 resolve: {
-                    idFilter: ['$stateParams', function($stateParams) {
+                    idFilter: ['$stateParams', function ($stateParams) {
                         return $stateParams.place_id;
                     }]
                 }

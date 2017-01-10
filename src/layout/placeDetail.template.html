@@ -5,60 +5,102 @@
     <h4 class="modal-title">Place Detail</h4>
 </div>
 <div class="modal-body">
-    <table class="table table-responsive">
+    <table class="table borderless" style="table-layout: fixed">
         <tr>
             <td>
-                <span>Name : </span>{{$ctrl.placeDetail.place_name}}
-            </td>
-            <td>
-                <span>Category : </span>{{$ctrl.placeDetail.category}}
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <span>Discount Given (%) : </span>{{$ctrl.placeDetail.discount_percent}}
-            </td>
-            <td>
-                <span>Requirements : </span>{{$ctrl.placeDetail.discount_detail}}
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <span>Additional Information : </span>{{$ctrl.placeDetail.information}}
-            </td>
-            <td>
-                <span>Website : </span> <a href="{{$ctrl.placeDetail.web_url}}">{{$ctrl.placeDetail.web_url}}</a>
-            </td>
-        </tr>
-        <tr>
+                <ul class="list-group">
+                    <li class="list-group-item list-group-item-info list-group-item-heading">
+                        <span>Name : </span>{{$ctrl.placeInfo.place_name}}
+                    </li>
+                    <li class="list-group-item list-group-item-">
+                        <span>Category : </span>{{$ctrl.placeInfo.category}}
+                    </li>
+                    <li class="list-group-item list-group-item-warning">
+                        <span>Address : </span> {{$ctrl.placeInfo.address}}
+                    </li>
 
-            <td>
-                <span>Address : </span> {{$ctrl.placeDetail.address}}
-            </td>
-            <td>
+                    <li class="list-group-item list-group-item-warning">
+                        <span>Requirements : </span>{{$ctrl.placeInfo.discount_detail}}
+                    </li>
 
+                    <li class="list-group-item">
+                        <span>Additional Information : </span>{{$ctrl.placeInfo.information}}
+                    </li>
+                </ul>
+            </td>
+            <td>
+                <ul class="list-group">
+                    <li class="list-group-item list-group-item-success list-group-item-heading">
+                        <span>Discount Given (%) : </span>{{$ctrl.placeInfo.discount_percent}}
+                    </li>
+
+                    <li class="list-group-item">
+                        <span>Website : </span> <a
+                            href="{{$ctrl.placeInfo.web_url}}">{{$ctrl.placeInfo.web_url}}</a>
+                    </li>
+
+                    <li class="list-group-item">
+                        <span>Phone : </span>{{$ctrl.placeInfo.phone}}
+                    </li>
+
+                    <li class="list-group-item">
+                        <span>Email : </span><a href="mailto:{{$ctrl.placeInfo.email}}">
+                        {{$ctrl.placeInfo.email}}</a>
+                    </li>
+                    <li class="list-group-item">
+                        <a ng-if="$ctrl.placeInfo.google_place_url" href="{{$ctrl.placeInfo.google_place_url}}"
+                           target="_blank">Google
+                            Place Url</a>
+                    </li>
+                </ul>
             </td>
         </tr>
-        <tr>
+        <tr ng-if="$ctrl.placeDetail">
             <td>
-                <span>Phone : </span>{{$ctrl.placeDetail.phone}}
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        <span>Rating : </span>
+                        <span ng-style="$ctrl.placeDetail.rating > 3 ? {color:'green'} : {color:'red'}">
+                            {{$ctrl.placeDetail.rating}}
+                        </span>
+                    </li>
+                    <li class="list-group-item"
+                        ng-class="$ctrl.placeDetail.open_now ? 'list-group-item-success' : 'list-group-item-danger'">
+                        <span ng-style="$ctrl.placeDetail.open_now ? {color:'green'} : {color:'red'}">
+                            {{$ctrl.placeDetail.open_now ? "Open Now" : "Closed"}} ::
+                        </span>
+                        <button ng-disabled="!$ctrl.placeDetail.weekday_text"
+                                uib-popover-html="$ctrl.placeDetail.weekday_text"
+                                popover-trigger="'mouseenter'" popover-placement="bottom">
+                            Opening Hours
+                        </button>
+                    </li>
+
+                </ul>
             </td>
             <td>
-                <span>Email : </span><a href="mailto:{{$ctrl.placeDetail.email}}">
-                {{$ctrl.placeDetail.email}}</a>
-            </td>
-        </tr>
-        <tr ng-if="$ctrl.placeDetail.google_place_url">
-            <td>
-                <a href="{{$ctrl.placeDetail.google_place_url}}" target="_blank">Google Place Url</a>
+                <div style="height: 400px; width: 400px">
+                    <div ng-if="$ctrl.placeDetail.photos.length > 0" uib-carousel active="true"
+                         interval="5000" no-transition="false">
+                        <div uib-slide ng-repeat="photo in $ctrl.placeDetail.photos track by $index"
+                             index="$index">
+                            <img href="{{photo}}" ng-src="{{photo}}">
+                            <!--<div class="carousel-caption">-->
+                            <!--&lt;!&ndash;<h4>Slide {{$index}}</h4>&ndash;&gt;-->
+                            <!--&lt;!&ndash;<p>{{photo.text}}</p>&ndash;&gt;-->
+                            <!--</div>-->
+                        </div>
+                    </div>
+                </div>
             </td>
         </tr>
     </table>
     <br>
 </div>
+<div id="map"></div>
 <div class="modal-footer">
     <button type="button" class="btn btn-default" ng-click="$ctrl.cancel()">Close</button>
-    <button type="button" class="btn btn-success" ui-sref="map({place_id:$ctrl.placeDetail.place_id})"
+    <button type="button" class="btn btn-success" ui-sref="map({place_id:$ctrl.placeInfo.place_id})"
             ng-click="$ctrl.cancel()">To map
     </button>
 </div>

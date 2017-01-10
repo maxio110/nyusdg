@@ -13,14 +13,17 @@
                     </span>
                 </a>
             </li>
-            <li class="dropdown" uib-dropdown ng-mouseover="$ctrl.dropdownTab=$index" ng-mouseleave="$ctrl.dropdownTab=-1"
-                is-open="$ctrl.dropdownTab==$index" ng-repeat="(name, categoryArr) in $ctrl.categoryList track by $index">
+            <li class="dropdown" uib-dropdown ng-mouseover="$ctrl.dropdownTab=$index"
+                ng-mouseleave="$ctrl.dropdownTab=-1"
+                is-open="$ctrl.dropdownTab==$index"
+                ng-repeat="(name, categoryArr) in $ctrl.categoryList track by $index">
                 <a href="" uib-dropdown-toggle>
-                    <span class="glyphicon glyphicon-tags" ng-style="$ctrl.selectedTab==$index ? $ctrl.selectedStyle:{}">
+                    <span class="glyphicon glyphicon-tags"
+                          ng-style="$ctrl.selectedTab==$index ? $ctrl.selectedStyle:{}">
                         {{name}}
                     </span>
                 </a>
-                <ul class="dropdown-mene" uib-dropdown-menu>
+                <ul class="dropdown-menu" uib-dropdown-menu>
                     <li ng-repeat="category in categoryArr">
                         <a href="" ng-click="$ctrl.categoryFilter=category; $ctrl.selectedTab=$ctrl.dropdownTab;"
                            ng-style="$ctrl.categoryFilter==category ? $ctrl.selectedStyle:{}">

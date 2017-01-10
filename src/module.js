@@ -3,6 +3,6 @@
  */
 (function () {
     'use strict';
-    angular.module("studentDiscount", ['angularUtils.directives.dirPagination', 'smoothScroll', 'ui.router', 'ui.bootstrap']);
+    angular.module("studentDiscount", ['angularUtils.directives.dirPagination', 'smoothScroll', 'ui.router', 'ui.bootstrap', 'ngAnimate', 'ngSanitize']);
 
 })();

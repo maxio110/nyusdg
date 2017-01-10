@@ -24,7 +24,7 @@
         };
 
         $ctrl.setCenter = setCenter;
-        $ctrl.centerData =  MapService.centerData;
+        $ctrl.centerData = MapService.centerData;
         ////////////////
         var map;
         activate();
@@ -51,7 +51,7 @@
 
             if (DEBUG) console.log("Map controller created");
             // Init map
-            map = MapService.initMap();
+            map = MapService.getCachedMap();
 
             DataService.subscribeToListeners(updateData, DATA_TYPE.CATEGORY_LIST);
             DataService.subscribeToListeners(updateData, DATA_TYPE.PLACE_LIST);

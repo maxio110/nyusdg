@@ -75,10 +75,12 @@
             });
 
             if (idFilter) {
+                console.log("id:" + idFilter);
                 for (var i in $ctrl.placeList) {
                     if ($ctrl.placeList[i].place_id == idFilter) {
                         $ctrl.detail = $ctrl.placeList[i];
-                        openPlaceDetailModal()
+                        console.log($ctrl.detail);
+                        openPlaceDetailModal($ctrl.detail)
                     }
                 }
             }
@@ -99,14 +101,16 @@
                         placeForm: function () {
                             return copy;
                         },
-                        formType: function() {
+                        formType: function () {
                             return "UPDATE"
                         }
                     }
                 });
 
                 // Close -> Dismiss
-                updatePlaceModalInstance.result.then(function (placeForm) {}, function () {});
+                updatePlaceModalInstance.result.then(function (placeForm) {
+                }, function () {
+                });
             } else {
                 var placeDetailModalInstance = $uibModal.open({
                     animation: true,
@@ -117,14 +121,16 @@
                     controllerAs: '$ctrl',
                     size: 'lg', // 'sm'
                     resolve: {
-                        placeDetail: function () {
+                        placeInfo: function () {
                             return form;
                         }
                     }
                 });
 
                 // Close -> Dismiss
-                placeDetailModalInstance.result.then(function () {}, function () {});
+                placeDetailModalInstance.result.then(function () {
+                }, function () {
+                });
             }
         }
     }

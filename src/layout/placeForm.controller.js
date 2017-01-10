@@ -59,7 +59,7 @@
                 if (input) {
                     autoComplete = new google.maps.places.Autocomplete(input);
                     //If user click on one of the suggested item
-                    autoCompleteListener =  google.maps.event.addListener(autoComplete, 'place_changed', onPlaceChanged);
+                    autoCompleteListener = google.maps.event.addListener(autoComplete, 'place_changed', onPlaceChanged);
                 }
             }
         }

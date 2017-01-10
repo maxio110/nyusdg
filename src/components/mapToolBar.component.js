@@ -17,9 +17,10 @@
 
     function mapToolBarController() {
         var $ctrl = this;
-        $ctrl.selectedStyle = {'color' : 'dodgerblue'};
+        $ctrl.selectedStyle = {'color': 'dodgerblue'};
 
-        $ctrl.$onInit = function () {};
+        $ctrl.$onInit = function () {
+        };
         $ctrl.setNewCenter = setNewCenter;
 
         ////////////////

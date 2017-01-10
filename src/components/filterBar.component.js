@@ -11,7 +11,7 @@
             bindings: {
                 categoryFilter: '=',
                 searchFilter: '=',
-                pageSize:'=',
+                pageSize: '=',
                 categoryList: '<'
             },
             controller: FilterBarController
@@ -20,8 +20,9 @@
     function FilterBarController() {
         var $ctrl = this;
         $ctrl.selectedTab = -1;
-        $ctrl.selectedStyle = {'color':'red'};
-        $ctrl.$onInit = function () {};
+        $ctrl.selectedStyle = {'color': 'red'};
+        $ctrl.$onInit = function () {
+        };
     }
 
 })();

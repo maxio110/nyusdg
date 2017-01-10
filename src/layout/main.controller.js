@@ -32,6 +32,7 @@
         //     latitude: "40.731104",
         //     google_place_id: ""
         // };
+
         MainCtrl.newPlaceForm = {};
         MainCtrl.isMenuCollapsed = false;
         MainCtrl.selectedStyle = {'color': 'green'};
@@ -79,7 +80,7 @@
                     placeForm: function () {
                         return form;
                     },
-                    formType: function() {
+                    formType: function () {
                         return "ADD"
                     }
                 }
@@ -88,7 +89,8 @@
             // Close -> Dismiss
             addNewPlaceModalInstance.result.then(function (placeForm) {
                 MainCtrl.placeForm = placeForm;
-            }, function () {});
+            }, function () {
+            });
         }
     }
 

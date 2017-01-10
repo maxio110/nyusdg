@@ -26,6 +26,7 @@
         DataService.getCachedData = getCachedData;
         DataService.getLatestPlaceList = getLatestPlaceList;
         DataService.getLatestCategoryList = getLatestCategoryList;
+        DataService.httpPostToServer = httpPostToServer;
 
         DataService.subscribeToListeners = subscribeToListeners;
         DataService.unsubscribeToListeners = unsubscribeToListeners;
@@ -189,7 +190,6 @@
         }
 
 
-
         /**
          * Check if the current token is expired
          */
@@ -229,7 +229,8 @@
          */
         function logout() {
             if (auth2) {
-                auth2.signOut().then(function () {});
+                auth2.signOut().then(function () {
+                });
             }
             updateCachedData([], DATA_TYPE.CREDENTIALS);
             removeTokenStringFromStorage();

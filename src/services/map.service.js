@@ -27,7 +27,7 @@
 
         MapService.centerData = centerData;
 
-        MapService.initMap = initMap;
+        MapService.getCachedMap = getCachedMap;
         MapService.initPlaceMarkers = initPlaceMarkers;
 
         MapService.filterPlaceMarkers = filterPlaceMarkers;
@@ -41,7 +41,7 @@
         var markerMap = {};
         var userMarker;
 
-        function initMap() {
+        function getCachedMap() {
             if (!cached_map) {
                 var mapCover = angular.element(document.getElementById("google-map"))[0];
                 mapCover.style.height = 0.85 * WINDOW_SIZE.height + "px";
@@ -70,6 +70,7 @@
                     }
                 });
             }
+            return cached_map;
         }
 
         function initPlaceMarkers(placeList) {
@@ -94,7 +95,7 @@
                         content: ''
                         + '<div id="iw-container">'
                         + '     <div class="iw-title">'
-                        + '         <a href="#/table/' + this.data.place_id + '">' + this.data.place_name + '</a>'
+                        + '         <a href="#!/table/' + this.data.place_id + '">' + this.data.place_name + '</a>'
                         + '     </div>'
                         + '     <div class="iw-content">'
                         + '         <img src="' + (this.data.logo_url ? this.data.logo_url : 'images/noimage.jpg') + '" alt="Logo" height="80" width="80">'
@@ -102,8 +103,8 @@
                         + '         <p><strong>Require : </strong> ' + this.data.discount_detail + '</p>'
                         + '         <p><strong>Category : </strong> ' + this.data.category + '</p>'
                         + '         <p><strong>Address : </strong> ' + this.data.address + '</p>'
-                        + (this.data.google_place_url ? ('<p><a href="' + this.data.google_place_url + '" target="_blank">To Google Place</a></p>'):'')
-                        + (this.data.web_url ? ('<p><a href="' + this.data.web_url + '" target="_blank">To Website</a></p>'):'')
+                        + (this.data.google_place_url ? ('<p><a href="' + this.data.google_place_url + '" target="_blank">To Google Place</a></p>') : '')
+                        + (this.data.web_url ? ('<p><a href="' + this.data.web_url + '" target="_blank">To Website</a></p>') : '')
                         + '     </div>'
 
                         + '</div>',

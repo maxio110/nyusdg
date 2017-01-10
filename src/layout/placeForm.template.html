@@ -18,10 +18,12 @@
                            ng-model="$ctrl.placeForm.place_name"/>
                     <span class="required-star"> * </span>
 
-                    <span class="error-msg" ng-if="placeForm.place_name.$error.required && placeForm.place_name.$touched">
+                    <span class="error-msg"
+                          ng-if="placeForm.place_name.$error.required && placeForm.place_name.$touched">
                         <br>Place name should not be empty
                     </span>
-                    <span class="error-msg" ng-if="placeForm.place_name.$error.maxlength && placeForm.place_name.$touched">
+                    <span class="error-msg"
+                          ng-if="placeForm.place_name.$error.maxlength && placeForm.place_name.$touched">
                         <br>Place name must be less than 30 characters long
                     </span>
                 </td>
@@ -55,7 +57,8 @@
                            ng-model="$ctrl.placeForm.discount_percent"/>
                     <span class="required-star"> * </span>
 
-                    <span class="error-msg" ng-if="placeForm.discount_percent.$invalid && placeForm.discount_percent.$touched">
+                    <span class="error-msg"
+                          ng-if="placeForm.discount_percent.$invalid && placeForm.discount_percent.$touched">
                         <br>Discount should be one to two digits number
                     </span>
                 </td>
@@ -68,10 +71,12 @@
                            ng-model="$ctrl.placeForm.discount_detail"/>
                     <span class="required-star"> * </span>
 
-                    <span class="error-msg" ng-if="placeForm.discount_detail.$error.required && placeForm.discount_detail.$touched">
+                    <span class="error-msg"
+                          ng-if="placeForm.discount_detail.$error.required && placeForm.discount_detail.$touched">
                         <br>Discount requirements is required
                     </span>
-                    <span class="error-msg" ng-if="placeForm.discount_detail.$error.maxlength && placeForm.discount_detail.$touched">
+                    <span class="error-msg"
+                          ng-if="placeForm.discount_detail.$error.maxlength && placeForm.discount_detail.$touched">
                         <br>Discount requirements must be less than 100 characters long
                     </span>
                 </td>
@@ -85,7 +90,8 @@
                            ng-maxlength="100"
                            ng-model="$ctrl.placeForm.information"/>
 
-                    <span class="error-msg" ng-if="placeForm.information.$error.maxlength && placeForm.information.$touched">
+                    <span class="error-msg"
+                          ng-if="placeForm.information.$error.maxlength && placeForm.information.$touched">
                         <br>Additional Information must be less than 100 characters long
                     </span>
                 </td>
@@ -94,7 +100,7 @@
                 </td>
                 <td>
                     <input title="web_url" name="web_url" type="text" ng-model="$ctrl.placeForm.web_url"
-                    ng-maxlength="150"/>
+                           ng-maxlength="150"/>
 
                     <span class="error-msg" ng-if="placeForm.web_url.$error.maxlength && placeForm.web_url.$touched">
                         <br>Web url must be less than 150 characters long
@@ -107,7 +113,7 @@
                 </td>
                 <td>
                     <input title="logo_url" name="logo_url" type="text" ng-model="$ctrl.placeForm.logo_url"
-                    ng-maxlength="150"/>
+                           ng-maxlength="150"/>
                     <img src="{{$ctrl.placeForm.logo_url}}" width="15px"/>
 
                     <span class="error-msg" ng-if="placeForm.logo_url.$error.maxlength && placeForm.logo_url.$touched">
@@ -119,7 +125,7 @@
                 </td>
                 <td>
                     <input title="address" name="address" type="text" ng-model="$ctrl.placeForm.address"
-                    ng-maxlength="50" required/>
+                           ng-maxlength="50" required/>
                     <span class="required-star"> * </span>
 
                     <span class="error-msg" ng-if="placeForm.address.$error.required && placeForm.address.$touched">
@@ -149,8 +155,8 @@
             <tr>
                 <td>
                     <span>Longitude</span>
-                        <input title="longitude" name="longitude" type="text" ng-model="$ctrl.placeForm.longitude"
-                               pattern="-?\d+\.?\d+"  required/>
+                    <input title="longitude" name="longitude" type="text" ng-model="$ctrl.placeForm.longitude"
+                           pattern="-?\d+\.?\d+" required/>
                     <span class="required-star"> * </span>
 
                     <span class="error-msg" ng-if="placeForm.longitude.required && placeForm.longitude.$touched">

@@ -43,13 +43,11 @@
                 cachedData[DATA_TYPE[key]] = [];
                 dataListeners[DATA_TYPE[key]] = [];
             }
-            var tokenString = loadTokenStringFromStorage();
-            if (tokenString) {
-                var token = parseTokenString(loadTokenStringFromStorage());
-                if (token) {
-                    updateCachedData(token, DATA_TYPE.CREDENTIALS);
-                } else {
-                    removeTokenStringFromStorage();
+            var token = loadTokenFromStorage();
+            if (token) {
+                var credential = validateToken(token);
+                if (credential) {
+                    updateCachedData(credential, DATA_TYPE.CREDENTIALS);
                 }
             }
             getLatestCategoryList();
@@ -91,7 +89,6 @@
                 if (!angular.equals(cachedData[type], [])) {
                     listener(cachedData[type], type);
                 }
-                if (DEBUG) console.log("Listener <" + listener.title + "> subscribed to " + type + " listeners");
                 return true;
             }
             return false;
@@ -108,7 +105,6 @@
                 var index = dataListeners[type].indexOf(listener);
                 if (index != -1) {
                     dataListeners[type].splice(index, 1);
-                    if (DEBUG) console.log("Listener <" + listener.title + "> unsubscribed to data listeners");
                     return true;
                 }
             }
@@ -119,9 +115,9 @@
             var deferred = $q.defer();
             delete $http.defaults.headers.common.Authorization;
             if (tokenNeeded) {
-                var tokenString = loadTokenStringFromStorage();
-                if (tokenString && validateToken(parseTokenString(tokenString))) {
-                    $http.defaults.headers.common.Authorization = 'Bearer ' + tokenString;
+                var token = loadTokenFromStorage();
+                if (validateToken(token)) {
+                    $http.defaults.headers.common.Authorization = 'Authorization ' + token;
                 }
             }
 
@@ -151,18 +147,18 @@
          */
         function loginWithNetId(netId, pwd) {
             httpPostToServer({OPERATION: "LOGIN_NETID", NETID: netId, PWD: pwd}, false)
-                .then(function (successResponse) {
-                        if (typeof successResponse == 'object') {
-                            var token = parseTokenString(successResponse.jwt);
-                            saveTokenStringToStorage(successResponse.jwt);
-                            updateCachedData(token, DATA_TYPE.CREDENTIALS);
+                .then(function successCallBack(response) {
+                        if (typeof response == 'object') {
+                            var token = response.jwt;
+                            saveTokenToStorage(token);
+                            updateCachedData(validateToken(token), DATA_TYPE.CREDENTIALS);
                             getLatestPlaceList();
                             $state.go('table/')
                         } else {
                             alert(ERROR.UNKNOWN_SERVER_ERROR);
                         }
-                    }, function (errorResponse) {
-                        alert(errorResponse);
+                    }, function errorCallBack(response) {
+                        alert(response);
                     }
                 );
         }
@@ -173,54 +169,53 @@
          */
         function loginWithGoogle(token) {
             httpPostToServer({OPERATION: "LOGIN_GOOGLE", GOOGLE_TOKEN: token}, false)
-                .then(function (successResponse) {
-                        if (typeof successResponse == 'object') {
-                            var token = parseTokenString(successResponse.jwt);
-                            saveTokenStringToStorage(successResponse.jwt);
-                            updateCachedData(token, DATA_TYPE.CREDENTIALS);
+                .then(function successCallBack(response) {
+                        if (typeof response == 'object') {
+                            var token = response.jwt;
+                            saveTokenToStorage(token);
+                            updateCachedData(validateToken(token), DATA_TYPE.CREDENTIALS);
                             getLatestPlaceList();
                             $state.go('table/')
                         } else {
                             alert(ERROR.UNKNOWN_SERVER_ERROR);
                         }
-                    }, function (errorResponse) {
-                        alert(errorResponse);
+                    }, function errorCallBack(response) {
+                        alert(response);
                     }
                 );
         }
 
-
         /**
-         * Check if the current token is expired
+         * Parse and check if the current token is expired
+         * @param token the token to parse
+         * @returns null if failed, otherwise return the credential
          */
         function validateToken(token) {
-            return token && (token.exp > new Date().getTime() / 1000);
-        }
-
-        function parseTokenString(tokenString) {
-            try {
-                var arr = tokenString.split(".");
-                var token = JSON.parse(atob(arr[1]));
-                if (validateToken(token)) {
-                    return token;
-                } else {
-                    return null;
+            if (token) {
+                try {
+                    var arr = token.split(".");
+                    var credential = JSON.parse(atob(arr[1]));
+                    if (credential && (credential.exp > new Date().getTime() / 1000)) {
+                        return credential
+                    } else {
+                        removeTokenFromStorage();
+                    }
+                } catch (err) {
                 }
-            } catch (err) {
-                return null;
             }
+            return null
         }
 
         // Mark: Local storage utility functions, subject to changes
-        function loadTokenStringFromStorage() {
+        function loadTokenFromStorage() {
             return localStorage.getItem(TOKEN_KEY);
         }
 
-        function saveTokenStringToStorage(tokenString) {
-            localStorage.setItem(TOKEN_KEY, tokenString);
+        function saveTokenToStorage(token) {
+            localStorage.setItem(TOKEN_KEY, token);
         }
 
-        function removeTokenStringFromStorage() {
+        function removeTokenFromStorage() {
             localStorage.removeItem(TOKEN_KEY);
         }
 
@@ -229,11 +224,11 @@
          */
         function logout() {
             if (auth2) {
-                auth2.signOut().then(function () {
+                auth2.signOut().then(function successCallBack() {
                 });
             }
             updateCachedData([], DATA_TYPE.CREDENTIALS);
-            removeTokenStringFromStorage();
+            removeTokenFromStorage();
         }
 
         /**
@@ -242,14 +237,14 @@
         function getLatestPlaceList() {
             var isAdmin = cachedData[DATA_TYPE.CREDENTIALS].admin_access;
             httpPostToServer({OPERATION: isAdmin ? "GET_PLACE_ADMIN" : "GET_PLACE"}, isAdmin)
-                .then(function (data) {
+                .then(function successCallBack(data) {
                     if (typeof data == 'object') {
                         updateCachedData(data, DATA_TYPE.PLACE_LIST);
                     } else {
                         alert(ERROR.UNKNOWN_SERVER_ERROR);
                     }
-                }, function (errorResponse) {
-                    alert(errorResponse);
+                }, function errorCallBack(response) {
+                    alert(response);
                 })
         }
 
@@ -258,7 +253,7 @@
          */
         function getLatestCategoryList() {
             httpPostToServer({OPERATION: "GET_CATEGORY"}, false)
-                .then(function (data) {
+                .then(function successCallBack(data) {
                     if (typeof data == 'object') {
                         var categoryList = {};
                         for (var key in data) {
@@ -272,8 +267,8 @@
                     } else {
                         alert(ERROR.UNKNOWN_SERVER_ERROR);
                     }
-                }, function (errorResponse) {
-                    alert(errorResponse);
+                }, function errorCallBack(response) {
+                    alert(response);
                 })
 
         }
@@ -284,13 +279,13 @@
          */
         function deletePlace(place) {
             httpPostToServer({OPERATION: "DELETE_PLACE", place_id: place["place_id"]}, true)
-                .then(function (successResponse) {
+                .then(function successCallBack(response) {
                     var index = cachedData[DATA_TYPE.PLACE_LIST].indexOf(place);
                     cachedData[DATA_TYPE.PLACE_LIST].splice(index, 1);
                     updateCachedData(cachedData[DATA_TYPE.PLACE_LIST], DATA_TYPE.PLACE_LIST);
-                    alert(successResponse);
-                }, function (errorResponse) {
-                    alert(errorResponse);
+                    alert(response);
+                }, function errorCallBack(response) {
+                    alert(response);
                 });
         }
 
@@ -301,11 +296,11 @@
         function addPlace(place) {
             place['OPERATION'] = "ADD_PLACE";
             httpPostToServer(place, true)
-                .then(function (successResponse) {
+                .then(function successCallBack(response) {
                     getLatestPlaceList();
-                    alert(successResponse);
-                }, function (errorResponse) {
-                    alert(errorResponse);
+                    alert(response);
+                }, function errorCallBack(response) {
+                    alert(response);
                 });
         }
 
@@ -316,11 +311,11 @@
         function updatePlace(place) {
             place['OPERATION'] = "UPDATE_PLACE";
             httpPostToServer(place, true)
-                .then(function (successResponse) {
+                .then(function successCallBack(response) {
                     getLatestPlaceList();
-                    alert(successResponse);
-                }, function (errorResponse) {
-                    alert(errorResponse);
+                    alert(response);
+                }, function errorCallBack(response) {
+                    alert(response);
                 });
         }
 
@@ -330,12 +325,12 @@
                 place_id: place["place_id"],
                 publish_status: newStatus
             }, true)
-                .then(function (successResponse) {
+                .then(function successCallBack(response) {
                     place["publish_status"] = newStatus;
-                    alert(successResponse);
-                }, function (errorResponse) {
+                    alert(response);
+                }, function errorCallBack(response) {
                     place["new_publish_status"] = place["publish_status"];
-                    alert(errorResponse);
+                    alert(response);
                 });
         }
     }

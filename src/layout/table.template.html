@@ -1,11 +1,11 @@
-<filter-bar category-filter="$ctrl.filters.categoryFilter"
+<search-bar category-filter="$ctrl.filters.categoryFilter"
             search-filter="$ctrl.filters.searchFilter"
-            page-size="$ctrl.pageConfig.pageSize"
             category-list="$ctrl.categoryList">
-</filter-bar>
+</search-bar>
 <!-- Main Table -->
 <table class="table table-bordered"
-       dir-paginate="place in $ctrl.placeList | filter: $ctrl.filters.searchFilter | filter: {category : $ctrl.filters.categoryFilter} | itemsPerPage: $ctrl.pageConfig.pageSize"
+       dir-paginate="place in $ctrl.placeList | filter: $ctrl.filters.searchFilter
+       | filter: {category : $ctrl.filters.categoryFilter} | itemsPerPage: $ctrl.pageConfig.pageSize"
        current-page="$ctrl.pageConfig.pagination.current" style="table-layout: fixed">
     <tr>
         <!--First Column : Name / Logo / Discount-->

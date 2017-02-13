@@ -29,6 +29,10 @@
         }
 
         function activate() {
+            if (location.protocol != 'https:')
+            {
+                location.href = 'https:' + window.location.href.substring(window.location.protocol.length);
+            }
             var banner = angular.element(document.getElementById("banner"))[0];
             banner.style.height = WINDOW_SIZE.height + "px";
             banner.style.width = WINDOW_SIZE.width + "px";

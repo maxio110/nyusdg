@@ -6,18 +6,17 @@
     'use strict';
     angular
         .module('studentDiscount')
-        .component('filterBar', {
-            templateUrl: 'src/components/filterBar.template.html',
+        .component('searchBar', {
+            templateUrl: 'src/components/searchBar.template.html',
             bindings: {
                 categoryFilter: '=',
                 searchFilter: '=',
-                pageSize: '=',
                 categoryList: '<'
             },
-            controller: FilterBarController
+            controller: SearchBarController
         });
 
-    function FilterBarController() {
+    function SearchBarController() {
         var $ctrl = this;
         $ctrl.selectedTab = -1;
         $ctrl.selectedStyle = {'color': 'red'};

@@ -1,10 +1,6 @@
-# Project Title
+# NYU Student Discount Guide
 
-NYU Student Discount Guide
-
-## Getting Started
-
-This is the sample for the front end code, to view the application please go to www.nyustudentdiscount.com
+This is a web application aimed to provide local student discount information to NYU student and they can also upload places information. And this is just a sample for the front end code, to see more please checkout [the live app here](https://www.nyustudentdiscount.com). Thanks!
 
 ## Authors
 
